@@ -165,13 +165,14 @@ if (isset($_GET['search'])) {
 }
 $total = 0;
 foreach ($livres as $livre) {
-        // first check if it not empty
-        if ($search != "") {
-        // here i search if value is on the arr using strposition
-        if (strpos(strtolower($livre['titre']), $search) === false ) {
-            // false here make index 0 works
-            continue;
-        }
+    // if search is active and title doesn't match skip
+    if ($search !== "" && strpos(strtolower($livre['titre']), $search) === false) {
+        continue;
+    }
+
+    // if no search  show only available books
+    if ($search === "" && !$livre['disponible']) {
+        continue;
     }
     $shelf = "<div class='shelf'>";
     $shelf .= "<p>Titre de livre : {$livre['titre']}</p>";
